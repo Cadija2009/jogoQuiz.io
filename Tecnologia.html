@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Tecnologia</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+   const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Qual \xE9 a linguagem de programa\xE7\xE3o mais utilizada para desenvolvimento web?",respostas:[{texto:"Python",certo:!1},{texto:"JavaScript",certo:!0},{texto:"Java",certo:!1},{texto:"C++",certo:!1}]},{pergunta:"Qual \xE9 o sistema operacional mais usado em servidores web?",respostas:[{texto:"Windows",certo:!1},{texto:"Linux",certo:!0},{texto:"MacOS",certo:!1},{texto:"Android",certo:!1}]},{pergunta:"Qual das seguintes \xE9 uma biblioteca JavaScript para constru\xE7\xE3o de interfaces de usu\xE1rio?",respostas:[{texto:"Laravel",certo:!1},{texto:"React",certo:!0},{texto:"Django",certo:!1},{texto:"Flask",certo:!1}]},{pergunta:"Qual \xE9 a principal fun\xE7\xE3o do protocolo HTTP?",respostas:[{texto:"Transferir arquivos",certo:!1},{texto:"Transferir hipertexto",certo:!0},{texto:"Gerenciar banco de dados",certo:!1},{texto:"Proteger dados",certo:!1}]},{pergunta:"O que significa CSS?",respostas:[{texto:"Cascading Style Sheets",certo:!0},{texto:"Computer Style Sheets",certo:!1},{texto:"Creative Style Sheets",certo:!1},{texto:"Colorful Style Sheets",certo:!1}]},{pergunta:"Qual \xE9 a finalidade do HTML?",respostas:[{texto:"Programa\xE7\xE3o de aplicativos",certo:!1},{texto:"Estrutura\xE7\xE3o de p\xE1ginas web",certo:!0},{texto:"Desenvolvimento de jogos",certo:!1},{texto:"Cria\xE7\xE3o de banco de dados",certo:!1}]},{pergunta:"Qual \xE9 o nome do banco de dados NoSQL mais popular?",respostas:[{texto:"MySQL",certo:!1},{texto:"PostgreSQL",certo:!1},{texto:"MongoDB",certo:!0},{texto:"SQLite",certo:!1}]},{pergunta:"O que significa a sigla API?",respostas:[{texto:"Application Programming Interface",certo:!0},{texto:"Application Program Internet",certo:!1},{texto:"Advanced Programming Interface",certo:!1},{texto:"Application Protocol Interface",certo:!1}]},{pergunta:"Qual \xE9 a linguagem de marca\xE7\xE3o usada para criar p\xE1ginas web?",respostas:[{texto:"HTML",certo:!0},{texto:"CSS",certo:!1},{texto:"JavaScript",certo:!1},{texto:"Python",certo:!1}]},{pergunta:"Qual das seguintes \xE9 uma plataforma de gerenciamento de conte\xFAdo?",respostas:[{texto:"React",certo:!1},{texto:"WordPress",certo:!0},{texto:"Vue.js",certo:!1},{texto:"Angular",certo:!1}]},{pergunta:"Qual \xE9 a fun\xE7\xE3o do protocolo HTTPS?",respostas:[{texto:"Transferir hipertexto",certo:!1},{texto:"Transferir hipertexto de forma segura",certo:!0},{texto:"Transferir arquivos de forma segura",certo:!1},{texto:"Gerenciar banco de dados",certo:!1}]},{pergunta:"Qual empresa desenvolveu o sistema operacional Android?",respostas:[{texto:"Apple",certo:!1},{texto:"Microsoft",certo:!1},{texto:"Google",certo:!0},{texto:"IBM",certo:!1}]},{pergunta:"Qual linguagem de programa\xE7\xE3o \xE9 mais associada ao desenvolvimento de aplicativos para iOS?",respostas:[{texto:"Java",certo:!1},{texto:"Swift",certo:!0},{texto:"Kotlin",certo:!1},{texto:"C#",certo:!1}]},{pergunta:"O que \xE9 Git?",respostas:[{texto:"Uma linguagem de programa\xE7\xE3o",certo:!1},{texto:"Um sistema de controle de vers\xE3o",certo:!0},{texto:"Um editor de texto",certo:!1},{texto:"Um framework web",certo:!1}]},{pergunta:"Qual \xE9 o principal objetivo do design responsivo?",respostas:[{texto:"Melhorar a velocidade do site",certo:!1},{texto:"Ajustar o layout do site para diferentes dispositivos",certo:!0},{texto:"Aumentar a seguran\xE7a do site",certo:!1},{texto:"Adicionar mais funcionalidades ao site",certo:!1}]},{pergunta:"Qual \xE9 o nome do framework JavaScript mantido pelo Google?",respostas:[{texto:"React",certo:!1},{texto:"Vue.js",certo:!1},{texto:"Angular",certo:!0},{texto:"Ember.js",certo:!1}]},{pergunta:"Qual \xE9 o formato de compacta\xE7\xE3o mais comum para arquivos na web?",respostas:[{texto:"RAR",certo:!1},{texto:"ZIP",certo:!0},{texto:"TAR",certo:!1},{texto:"GZ",certo:!1}]},{pergunta:"Qual \xE9 o prop\xF3sito principal do Docker?",respostas:[{texto:"Criar m\xE1quinas virtuais",certo:!1},{texto:"Automatizar testes",certo:!1},{texto:"Desenvolver software",certo:!1},{texto:"Containeriza\xE7\xE3o de aplica\xE7\xF5es",certo:!0}]},{pergunta:"O que \xE9 um CDN?",respostas:[{texto:"Content Delivery Network",certo:!0},{texto:"Central Data Network",certo:!1},{texto:"Content Data Network",certo:!1},{texto:"Central Delivery Network",certo:!1}]},{pergunta:"Qual \xE9 o principal uso do SQL?",respostas:[{texto:"Estiliza\xE7\xE3o de p\xE1ginas web",certo:!1},{texto:"Manipula\xE7\xE3o de dados em banco de dados",certo:!0},{texto:"Desenvolvimento de aplicativos m\xF3veis",certo:!1},{texto:"Cria\xE7\xE3o de gr\xE1ficos",certo:!1}]}];
+
+    
+
+</script>
+
+
+
+
+</html>

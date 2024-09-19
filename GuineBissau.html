@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Guiné-Bissau</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+   const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Qual \xE9 a capital da Guin\xE9-Bissau?",respostas:[{texto:"Bissau",certo:!0},{texto:"Conacri",certo:!1},{texto:"Dakar",certo:!1},{texto:"Praia",certo:!1}]},{pergunta:"Qual \xE9 a l\xEDngua oficial da Guin\xE9-Bissau?",respostas:[{texto:"Franc\xEAs",certo:!1},{texto:"Portugu\xEAs",certo:!0},{texto:"Espanhol",certo:!1},{texto:"Ingl\xEAs",certo:!1}]},{pergunta:"Em que ano a Guin\xE9-Bissau tornou-se independente?",respostas:[{texto:"1973",certo:!0},{texto:"1960",certo:!1},{texto:"1985",certo:!1},{texto:"1990",certo:!1}]},{pergunta:"Qual \xE9 a moeda oficial da Guin\xE9-Bissau?",respostas:[{texto:"Naira",certo:!1},{texto:"Franco CFA",certo:!0},{texto:"Escudo",certo:!1},{texto:"Metical",certo:!1}]},{pergunta:"Qual \xE9 a maior religi\xE3o na Guin\xE9-Bissau?",respostas:[{texto:"Cristianismo",certo:!1},{texto:"Islamismo",certo:!0},{texto:"Hindu\xEDsmo",certo:!1},{texto:"Budismo",certo:!1}]},{pergunta:"Qual \xE9 o principal rio que atravessa a Guin\xE9-Bissau?",respostas:[{texto:"Rio N\xEDger",certo:!1},{texto:"Rio Senegal",certo:!1},{texto:"Rio G\xE2mbia",certo:!1},{texto:"Rio Geba",certo:!0}]},{pergunta:"Qual pa\xEDs faz fronteira com a Guin\xE9-Bissau a leste?",respostas:[{texto:"Senegal",certo:!1},{texto:"Mali",certo:!1},{texto:"Guin\xE9",certo:!0},{texto:"Cabo Verde",certo:!1}]},{pergunta:"Qual \xE9 a principal exporta\xE7\xE3o da Guin\xE9-Bissau?",respostas:[{texto:"Ouro",certo:!1},{texto:"Castanha de caju",certo:!0},{texto:"Petr\xF3leo",certo:!1},{texto:"Caf\xE9",certo:!1}]},{pergunta:"Qual \xE9 a \xE1rea aproximada da Guin\xE9-Bissau?",respostas:[{texto:"36.125 km\xB2",certo:!0},{texto:"100.000 km\xB2",certo:!1},{texto:"250.000 km\xB2",certo:!1},{texto:"500.000 km\xB2",certo:!1}]},{pergunta:"Qual \xE9 a ilha mais famosa da Guin\xE9-Bissau?",respostas:[{texto:"Ilha de Santiago",certo:!1},{texto:"Ilha de Fogo",certo:!1},{texto:"Ilha de Bubaque",certo:!0},{texto:"Ilha de S\xE3o Vicente",certo:!1}]},{pergunta:"Qual \xE9 o nome do aeroporto principal na Guin\xE9-Bissau?",respostas:[{texto:"Aeroporto Internacional de Dakar",certo:!1},{texto:"Aeroporto Internacional Osvaldo Vieira",certo:!0},{texto:"Aeroporto Internacional de Bamako",certo:!1},{texto:"Aeroporto Internacional Am\xEDlcar Cabral",certo:!1}]},{pergunta:"Qual \xE9 a principal dan\xE7a tradicional da Guin\xE9-Bissau?",respostas:[{texto:"Samba",certo:!1},{texto:"Kizomba",certo:!1},{texto:"Funan\xE1",certo:!1},{texto:"Tina",certo:!0}]},{pergunta:"Qual \xE9 o maior grupo \xE9tnico da Guin\xE9-Bissau?",respostas:[{texto:"Mandinga",certo:!1},{texto:"Fula",certo:!1},{texto:"Balanta",certo:!0},{texto:"Manjaco",certo:!1}]},{pergunta:"Quem foi o primeiro presidente da Guin\xE9-Bissau ap\xF3s a independ\xEAncia?",respostas:[{texto:"Am\xEDlcar Cabral",certo:!1},{texto:"Nino Vieira",certo:!1},{texto:"Lu\xEDs Cabral",certo:!0},{texto:"Kumba Ial\xE1",certo:!1}]},{pergunta:"Qual \xE9 a taxa de alfabetiza\xE7\xE3o aproximada da Guin\xE9-Bissau?",respostas:[{texto:"20%",certo:!1},{texto:"50%",certo:!1},{texto:"60%",certo:!1},{texto:"59%",certo:!0}]},{pergunta:"Qual \xE9 a maior cidade da Guin\xE9-Bissau?",respostas:[{texto:"Bafat\xE1",certo:!1},{texto:"Bolama",certo:!1},{texto:"Gab\xFA",certo:!1},{texto:"Bissau",certo:!0}]},{pergunta:"Quantas regi\xF5es administrativas a Guin\xE9-Bissau possui?",respostas:[{texto:"6",certo:!1},{texto:"9",certo:!0},{texto:"11",certo:!1},{texto:"13",certo:!1}]},{pergunta:"Qual \xE9 o nome do parque nacional mais famoso da Guin\xE9-Bissau?",respostas:[{texto:"Parque Nacional de Niokolo-Koba",certo:!1},{texto:"Parque Nacional de Bissau",certo:!1},{texto:"Parque Nacional das Florestas do Norte",certo:!1},{texto:"Parque Nacional de Cantanhez",certo:!0}]},{pergunta:"Qual \xE9 o principal est\xE1dio de futebol da Guin\xE9-Bissau?",respostas:[{texto:"Est\xE1dio 24 de Setembro",certo:!0},{texto:"Est\xE1dio da Luz",certo:!1},{texto:"Est\xE1dio Nacional de Bissau",certo:!1},{texto:"Est\xE1dio do Drag\xE3o",certo:!1}]},{pergunta:"Qual \xE9 o nome do prato tradicional feito de arroz e peixe na Guin\xE9-Bissau?",respostas:[{texto:"Jollof Rice",certo:!1},{texto:"Cachupa",certo:!1},{texto:"Thieboudienne",certo:!0},{texto:"Moamba de Galinha",certo:!1}]}];
+
+
+</script>
+
+
+
+
+</html>

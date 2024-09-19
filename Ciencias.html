@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Ciências</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Qual \xE9 o elemento qu\xEDmico com s\xEDmbolo H?",respostas:[{texto:"H\xE9lio",certo:!1},{texto:"Hidrog\xEAnio",certo:!0},{texto:"Hafnio",certo:!1},{texto:"Hidrog\xEAnio",certo:!1}]},{pergunta:"Qual planeta \xE9 conhecido como o \"Planeta Vermelho\"?",respostas:[{texto:"V\xEAnus",certo:!1},{texto:"J\xFApiter",certo:!1},{texto:"Marte",certo:!0},{texto:"Saturno",certo:!1}]},{pergunta:"Qual \xE9 a unidade b\xE1sica de vida?",respostas:[{texto:"\xC1tomo",certo:!1},{texto:"C\xE9lula",certo:!0},{texto:"Mol\xE9cula",certo:!1},{texto:"Tecido",certo:!1}]},{pergunta:"Qual \xE9 a for\xE7a que puxa os objetos para o centro da Terra?",respostas:[{texto:"For\xE7a de Fric\xE7\xE3o",certo:!1},{texto:"For\xE7a Eletromagn\xE9tica",certo:!1},{texto:"Gravidade",certo:!0},{texto:"For\xE7a Nuclear",certo:!1}]},{pergunta:"Qual \xE9 o maior \xF3rg\xE3o do corpo humano?",respostas:[{texto:"Cora\xE7\xE3o",certo:!1},{texto:"F\xEDgado",certo:!1},{texto:"Pele",certo:!0},{texto:"Pulm\xE3o",certo:!1}]},{pergunta:"Qual \xE9 o g\xE1s mais abundante na atmosfera terrestre?",respostas:[{texto:"Oxig\xEAnio",certo:!1},{texto:"Nitrog\xEAnio",certo:!0},{texto:"Di\xF3xido de Carbono",certo:!1},{texto:"H\xE9lio",certo:!1}]},{pergunta:"Qual \xE9 a f\xF3rmula qu\xEDmica da \xE1gua?",respostas:[{texto:"CO\u2082",certo:!1},{texto:"H\u2082O",certo:!0},{texto:"NaCl",certo:!1},{texto:"CH\u2084",certo:!1}]},{pergunta:"Qual \xE9 o processo pelo qual as plantas produzem seu alimento?",respostas:[{texto:"Respira\xE7\xE3o",certo:!1},{texto:"Digest\xE3o",certo:!1},{texto:"Fotoss\xEDntese",certo:!0},{texto:"Fermenta\xE7\xE3o",certo:!1}]},{pergunta:"Qual \xE9 o nome do processo de transforma\xE7\xE3o de uma lagarta em borboleta?",respostas:[{texto:"Metamorfose",certo:!0},{texto:"Germina\xE7\xE3o",certo:!1},{texto:"Evolu\xE7\xE3o",certo:!1},{texto:"Fus\xE3o",certo:!1}]},{pergunta:"Qual \xE9 a lei que afirma que a energia n\xE3o pode ser criada nem destru\xEDda, apenas transformada?",respostas:[{texto:"Lei de Newton",certo:!1},{texto:"Lei da Termodin\xE2mica",certo:!0},{texto:"Lei da Gravita\xE7\xE3o Universal",certo:!1},{texto:"Lei de Ohm",certo:!1}]},{pergunta:"Quem formulou a teoria da relatividade?",respostas:[{texto:"Isaac Newton",certo:!1},{texto:"Galileu Galilei",certo:!1},{texto:"Albert Einstein",certo:!0},{texto:"Niels Bohr",certo:!1}]},{pergunta:"Qual \xE9 o principal g\xE1s respons\xE1vel pelo efeito estufa?",respostas:[{texto:"Oxig\xEAnio",certo:!1},{texto:"H\xE9lio",certo:!1},{texto:"Di\xF3xido de Carbono",certo:!0},{texto:"Ne\xF4nio",certo:!1}]},{pergunta:"Qual \xE9 o nome do maior planeta do Sistema Solar?",respostas:[{texto:"Saturno",certo:!1},{texto:"Marte",certo:!1},{texto:"J\xFApiter",certo:!0},{texto:"Urano",certo:!1}]},{pergunta:"Qual \xE9 o processo pelo qual as c\xE9lulas se dividem para formar duas c\xE9lulas filhas?",respostas:[{texto:"Mitose",certo:!0},{texto:"Meiose",certo:!1},{texto:"Citoquinese",certo:!1},{texto:"Difus\xE3o",certo:!1}]},{pergunta:"Qual \xE9 o nome da camada externa da Terra?",respostas:[{texto:"Manto",certo:!1},{texto:"N\xFAcleo",certo:!1},{texto:"Crosta",certo:!0},{texto:"Litosfera",certo:!1}]},{pergunta:"Qual \xE9 a unidade de medida para a intensidade de corrente el\xE9trica?",respostas:[{texto:"Volt",certo:!1},{texto:"Ohm",certo:!1},{texto:"Ampere",certo:!0},{texto:"Watt",certo:!1}]},{pergunta:"Quem \xE9 conhecido como o pai da gen\xE9tica?",respostas:[{texto:"Charles Darwin",certo:!1},{texto:"Gregor Mendel",certo:!0},{texto:"Louis Pasteur",certo:!1},{texto:"James Watson",certo:!1}]},{pergunta:"Qual \xE9 o composto qu\xEDmico respons\xE1vel pela cor das plantas?",respostas:[{texto:"Carotenoide",certo:!1},{texto:"Clorofila",certo:!0},{texto:"Antocianina",certo:!1},{texto:"Melanina",certo:!1}]},{pergunta:"Qual \xE9 a part\xEDcula subat\xF4mica com carga negativa?",respostas:[{texto:"N\xEAutron",certo:!1},{texto:"Pr\xF3ton",certo:!1},{texto:"El\xE9tron",certo:!0},{texto:"M\xFAon",certo:!1}]},{pergunta:"Qual \xE9 o principal \xF3rg\xE3o respons\xE1vel pela respira\xE7\xE3o no corpo humano?",respostas:[{texto:"Cora\xE7\xE3o",certo:!1},{texto:"F\xEDgado",certo:!1},{texto:"Pulm\xE3o",certo:!0},{texto:"Rins",certo:!1}]},{pergunta:"Qual \xE9 a unidade de medida para a for\xE7a?",respostas:[{texto:"Newton",certo:!0},{texto:"Joule",certo:!1},{texto:"Pascal",certo:!1},{texto:"Watt",certo:!1}]},{pergunta:"Qual \xE9 o nome do processo pelo qual as plantas liberam oxig\xEAnio?",respostas:[{texto:"Respira\xE7\xE3o",certo:!1},{texto:"Fotoss\xEDntese",certo:!0},{texto:"Fermenta\xE7\xE3o",certo:!1},{texto:"Evapora\xE7\xE3o",certo:!1}]}];
+
+</script>
+
+
+
+
+</html>

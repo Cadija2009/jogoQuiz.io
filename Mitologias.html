@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Mitologia</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+   const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Quem \xE9 o deus do trov\xE3o na mitologia n\xF3rdica?",respostas:[{texto:"Odin",certo:!1},{texto:"Loki",certo:!1},{texto:"Thor",certo:!0},{texto:"Freyr",certo:!1}]},{pergunta:"Qual \xE9 o nome do deus grego do mar?",respostas:[{texto:"Zeus",certo:!1},{texto:"Hades",certo:!1},{texto:"Poseidon",certo:!0},{texto:"Ares",certo:!1}]},{pergunta:"Quem \xE9 a deusa do amor e da beleza na mitologia romana?",respostas:[{texto:"V\xEAnus",certo:!0},{texto:"Minerva",certo:!1},{texto:"Juno",certo:!1},{texto:"Diana",certo:!1}]},{pergunta:"Qual her\xF3i grego realizou os Doze Trabalhos?",respostas:[{texto:"Perseu",certo:!1},{texto:"Aquiles",certo:!1},{texto:"H\xE9rcules",certo:!0},{texto:"Teseu",certo:!1}]},{pergunta:"Quem \xE9 o deus do sol na mitologia eg\xEDpcia?",respostas:[{texto:"An\xFAbis",certo:!1},{texto:"Os\xEDris",certo:!1},{texto:"R\xE1",certo:!0},{texto:"H\xF3rus",certo:!1}]},{pergunta:"Qual \xE9 o nome da mitologia japonesa que \xE9 conhecida como o deus do vento?",respostas:[{texto:"Susanoo",certo:!1},{texto:"Amaterasu",certo:!1},{texto:"F\u016Bjin",certo:!0},{texto:"Raijin",certo:!1}]},{pergunta:"Quem \xE9 o deus dos mortos na mitologia grega?",respostas:[{texto:"Poseidon",certo:!1},{texto:"Hades",certo:!0},{texto:"Hermes",certo:!1},{texto:"Zeus",certo:!1}]},{pergunta:"Qual \xE9 o nome da deusa hindu da riqueza e prosperidade?",respostas:[{texto:"Saraswati",certo:!1},{texto:"Kali",certo:!1},{texto:"Lakshmi",certo:!0},{texto:"Parvati",certo:!1}]},{pergunta:"Quem \xE9 o deus do vinho na mitologia grega?",respostas:[{texto:"Ares",certo:!1},{texto:"Hefesto",certo:!1},{texto:"Dion\xEDsio",certo:!0},{texto:"Apolo",certo:!1}]},{pergunta:"Qual criatura m\xEDtica tem cabe\xE7a de touro e corpo de homem?",respostas:[{texto:"Centauro",certo:!1},{texto:"Minotauro",certo:!0},{texto:"Grifo",certo:!1},{texto:"Hidra",certo:!1}]},{pergunta:"Quem \xE9 a deusa da sabedoria na mitologia grega?",respostas:[{texto:"Hera",certo:!1},{texto:"Afrodite",certo:!1},{texto:"\xC1rtemis",certo:!1},{texto:"Atena",certo:!0}]},{pergunta:"Qual \xE9 o nome do deus asteca do sol e da guerra?",respostas:[{texto:"Quetzalcoatl",certo:!1},{texto:"Huitzilopochtli",certo:!0},{texto:"Tlaloc",certo:!1},{texto:"Tezcatlipoca",certo:!1}]},{pergunta:"Quem \xE9 o deus do submundo na mitologia n\xF3rdica?",respostas:[{texto:"Thor",certo:!1},{texto:"Loki",certo:!1},{texto:"Hel",certo:!0},{texto:"Baldur",certo:!1}]},{pergunta:"Qual \xE9 o nome da deusa celta do amor?",respostas:[{texto:"Brigid",certo:!1},{texto:"Danu",certo:!1},{texto:"Aine",certo:!0},{texto:"Morrigan",certo:!1}]},{pergunta:"Quem \xE9 o deus grego dos sonhos?",respostas:[{texto:"Thanatos",certo:!1},{texto:"Morpheu",certo:!0},{texto:"Hypnos",certo:!1},{texto:"Erebus",certo:!1}]},{pergunta:"Qual \xE9 o nome do martelo de Thor?",respostas:[{texto:"Stormbreaker",certo:!1},{texto:"Gungnir",certo:!1},{texto:"Mjolnir",certo:!0},{texto:"Excalibur",certo:!1}]},{pergunta:"Quem \xE9 o deus dos mares na mitologia romana?",respostas:[{texto:"Neptuno",certo:!0},{texto:"J\xFApiter",certo:!1},{texto:"Plut\xE3o",certo:!1},{texto:"Marte",certo:!1}]},{pergunta:"Qual \xE9 o nome da m\xE3e terra na mitologia grega?",respostas:[{texto:"Hera",certo:!1},{texto:"Gaia",certo:!0},{texto:"Afrodite",certo:!1},{texto:"Dem\xE9ter",certo:!1}]},{pergunta:"Quem \xE9 o rei dos deuses na mitologia grega?",respostas:[{texto:"Poseidon",certo:!1},{texto:"Hades",certo:!1},{texto:"Zeus",certo:!0},{texto:"Apolo",certo:!1}]},{pergunta:"Qual \xE9 o nome do deus eg\xEDpcio da morte?",respostas:[{texto:"R\xE1",certo:!1},{texto:"Os\xEDris",certo:!0},{texto:"An\xFAbis",certo:!1},{texto:"Seth",certo:!1}]}];
+
+
+
+
+</script>
+
+
+
+
+</html>

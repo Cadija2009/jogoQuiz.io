@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Matemática</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+   const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Qual \xE9 o valor de 7 + 5?",respostas:[{texto:"12",certo:!0},{texto:"11",certo:!1},{texto:"13",certo:!1},{texto:"14",certo:!1}]},{pergunta:"Qual \xE9 o resultado de 9 x 6?",respostas:[{texto:"54",certo:!0},{texto:"52",certo:!1},{texto:"60",certo:!1},{texto:"56",certo:!1}]},{pergunta:"Quanto \xE9 45 dividido por 5?",respostas:[{texto:"9",certo:!0},{texto:"10",certo:!1},{texto:"8",certo:!1},{texto:"11",certo:!1}]},{pergunta:"Qual \xE9 a raiz quadrada de 144?",respostas:[{texto:"12",certo:!0},{texto:"14",certo:!1},{texto:"16",certo:!1},{texto:"10",certo:!1}]},{pergunta:"Qual \xE9 o pr\xF3ximo n\xFAmero na sequ\xEAncia: 2, 4, 6, 8, ...?",respostas:[{texto:"10",certo:!0},{texto:"12",certo:!1},{texto:"11",certo:!1},{texto:"14",certo:!1}]},{pergunta:"Se voc\xEA tem 15 ma\xE7\xE3s e d\xE1 7 para um amigo, quantas ma\xE7\xE3s restam?",respostas:[{texto:"8",certo:!0},{texto:"7",certo:!1},{texto:"6",certo:!1},{texto:"9",certo:!1}]},{pergunta:"Qual \xE9 o per\xEDmetro de um quadrado com lados de 5 cm?",respostas:[{texto:"20 cm",certo:!0},{texto:"25 cm",certo:!1},{texto:"15 cm",certo:!1},{texto:"30 cm",certo:!1}]},{pergunta:"Quanto \xE9 2^3?",respostas:[{texto:"8",certo:!0},{texto:"6",certo:!1},{texto:"4",certo:!1},{texto:"10",certo:!1}]},{pergunta:"Qual \xE9 a f\xF3rmula para calcular a \xE1rea de um tri\xE2ngulo?",respostas:[{texto:"A = base x altura",certo:!1},{texto:"A = base x altura / 2",certo:!0},{texto:"A = lado\xB2",certo:!1},{texto:"A = 2 x base x altura",certo:!1}]},{pergunta:"Qual \xE9 a soma dos \xE2ngulos internos de um tri\xE2ngulo?",respostas:[{texto:"180 graus",certo:!0},{texto:"360 graus",certo:!1},{texto:"90 graus",certo:!1},{texto:"270 graus",certo:!1}]},{pergunta:"Quanto \xE9 50 menos 17?",respostas:[{texto:"33",certo:!0},{texto:"32",certo:!1},{texto:"30",certo:!1},{texto:"29",certo:!1}]},{pergunta:"Qual \xE9 a \xE1rea de um c\xEDrculo com raio de 3 cm (use \u03C0 \u2248 3.14)?",respostas:[{texto:"28.26 cm\xB2",certo:!0},{texto:"18.84 cm\xB2",certo:!1},{texto:"31.42 cm\xB2",certo:!1},{texto:"23.56 cm\xB2",certo:!1}]},{pergunta:"Qual \xE9 a solu\xE7\xE3o para a equa\xE7\xE3o 2x = 10?",respostas:[{texto:"5",certo:!0},{texto:"4",certo:!1},{texto:"6",certo:!1},{texto:"7",certo:!1}]},{pergunta:"Quantos lados tem um hex\xE1gono?",respostas:[{texto:"6",certo:!0},{texto:"5",certo:!1},{texto:"7",certo:!1},{texto:"8",certo:!1}]},{pergunta:"Qual \xE9 a f\xF3rmula para calcular o volume de um cubo?",respostas:[{texto:"V = aresta\xB3",certo:!0},{texto:"V = comprimento x largura x altura",certo:!1},{texto:"V = 2 x (comprimento + largura)",certo:!1},{texto:"V = aresta\xB2",certo:!1}]},{pergunta:"Quanto \xE9 25% de 200?",respostas:[{texto:"50",certo:!0},{texto:"40",certo:!1},{texto:"60",certo:!1},{texto:"70",certo:!1}]},{pergunta:"Qual \xE9 a m\xE9dia de 5, 8, 10 e 12?",respostas:[{texto:"8.75",certo:!0},{texto:"9",certo:!1},{texto:"8",certo:!1},{texto:"9.5",certo:!1}]},{pergunta:"Qual \xE9 o valor de 6 x (3 + 2)?",respostas:[{texto:"30",certo:!0},{texto:"28",certo:!1},{texto:"32",certo:!1},{texto:"24",certo:!1}]},{pergunta:"Qual \xE9 a f\xF3rmula para calcular a \xE1rea de um ret\xE2ngulo?",respostas:[{texto:"A = comprimento x largura",certo:!0},{texto:"A = lado\xB2",certo:!1},{texto:"A = (comprimento + largura) / 2",certo:!1},{texto:"A = comprimento + largura",certo:!1}]},{pergunta:"Qual \xE9 o n\xFAmero primo entre 4, 6, 9 e 11?",respostas:[{texto:"11",certo:!0},{texto:"4",certo:!1},{texto:"6",certo:!1},{texto:"9",certo:!1}]},{pergunta:"Qual \xE9 o menor n\xFAmero par positivo?",respostas:[{texto:"2",certo:!0},{texto:"1",certo:!1},{texto:"0",certo:!1},{texto:"4",certo:!1}]},{pergunta:"Qual \xE9 a soma de todos os \xE2ngulos internos de um quadrado?",respostas:[{texto:"360 graus",certo:!0},{texto:"180 graus",certo:!1},{texto:"90 graus",certo:!1},{texto:"270 graus",certo:!1}]},{pergunta:"Qual \xE9 o pr\xF3ximo n\xFAmero na sequ\xEAncia: 1, 4, 9, 16, ...?",respostas:[{texto:"25",certo:!0},{texto:"24",certo:!1},{texto:"22",certo:!1},{texto:"30",certo:!1}]}];
+
+
+
+
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Linguas</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+   const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Como se escreve \"Ol\xE1\" em ingl\xEAs?",respostas:[{texto:"Hello",certo:!0},{texto:"Hola",certo:!1},{texto:"Bonjour",certo:!1},{texto:"Ciao",certo:!1}]},{pergunta:"Como se diz \"Bom dia\" em franc\xEAs?",respostas:[{texto:"Good morning",certo:!1},{texto:"Buenos d\xEDas",certo:!1},{texto:"Buongiorno",certo:!1},{texto:"Bonjour",certo:!0}]},{pergunta:"Qual \xE9 a tradu\xE7\xE3o de \"I love you\" para o portugu\xEAs?",respostas:[{texto:"Eu te amo",certo:!0},{texto:"Je t'aime",certo:!1},{texto:"Ti amo",certo:!1},{texto:"Te quiero",certo:!1}]},{pergunta:"Como se escreve \"Amigo\" em espanhol?",respostas:[{texto:"Friend",certo:!1},{texto:"Amico",certo:!1},{texto:"Ami",certo:!1},{texto:"Amigo",certo:!0}]},{pergunta:"Qual \xE9 a tradu\xE7\xE3o de \"Obrigado\" para o ingl\xEAs?",respostas:[{texto:"Thank you",certo:!0},{texto:"Gracias",certo:!1},{texto:"Merci",certo:!1},{texto:"Grazie",certo:!1}]},{pergunta:"Como se diz \"Desculpa\" em italiano?",respostas:[{texto:"Sorry",certo:!1},{texto:"Pardon",certo:!1},{texto:"Scusa",certo:!0},{texto:"Entschuldigung",certo:!1}]},{pergunta:"Como se escreve \"Livro\" em franc\xEAs?",respostas:[{texto:"Book",certo:!1},{texto:"Libro",certo:!1},{texto:"Livre",certo:!0},{texto:"Buch",certo:!1}]},{pergunta:"Qual \xE9 a tradu\xE7\xE3o de \"Caneta\" para o espanhol?",respostas:[{texto:"Pen",certo:!1},{texto:"Pencil",certo:!1},{texto:"Pluma",certo:!0},{texto:"Stift",certo:!1}]},{pergunta:"Como se diz \"Felicidade\" em ingl\xEAs?",respostas:[{texto:"Happiness",certo:!0},{texto:"Felicidad",certo:!1},{texto:"Bonheur",certo:!1},{texto:"Felicit\xE0",certo:!1}]},{pergunta:"Como se escreve \"Casa\" em italiano?",respostas:[{texto:"Maison",certo:!1},{texto:"House",certo:!1},{texto:"Casa",certo:!0},{texto:"Haus",certo:!1}]},{pergunta:"Qual \xE9 a tradu\xE7\xE3o de \"\xC1rvore\" para o franc\xEAs?",respostas:[{texto:"Tree",certo:!1},{texto:"Arbre",certo:!0},{texto:"Baum",certo:!1},{texto:"\xC1rbol",certo:!1}]},{pergunta:"Como se diz \"Cachorro\" em ingl\xEAs?",respostas:[{texto:"Dog",certo:!0},{texto:"Chien",certo:!1},{texto:"Cane",certo:!1},{texto:"Perro",certo:!1}]},{pergunta:"Como se escreve \"Gato\" em espanhol?",respostas:[{texto:"Katze",certo:!1},{texto:"Gatto",certo:!1},{texto:"Gato",certo:!0},{texto:"Chat",certo:!1}]},{pergunta:"Qual \xE9 a tradu\xE7\xE3o de \"Bom\" para o italiano?",respostas:[{texto:"Buono",certo:!0},{texto:"Bueno",certo:!1},{texto:"Bon",certo:!1},{texto:"Gut",certo:!1}]},{pergunta:"Como se diz \"Vermelho\" em franc\xEAs?",respostas:[{texto:"Red",certo:!1},{texto:"Rouge",certo:!0},{texto:"Rosso",certo:!1},{texto:"Rojo",certo:!1}]},{pergunta:"Como se escreve \"Azul\" em ingl\xEAs?",respostas:[{texto:"Blau",certo:!1},{texto:"Bleu",certo:!1},{texto:"Azul",certo:!1},{texto:"Blue",certo:!0}]},{pergunta:"Qual \xE9 a tradu\xE7\xE3o de \"Pequeno\" para o espanhol?",respostas:[{texto:"Petit",certo:!1},{texto:"Piccolo",certo:!1},{texto:"Klein",certo:!1},{texto:"Peque\xF1o",certo:!0}]},{pergunta:"Como se diz \"Fam\xEDlia\" em italiano?",respostas:[{texto:"Familia",certo:!1},{texto:"Famille",certo:!1},{texto:"Familie",certo:!1},{texto:"Famiglia",certo:!0}]},{pergunta:"Como se escreve \"Escola\" em franc\xEAs?",respostas:[{texto:"School",certo:!1},{texto:"Escuela",certo:!1},{texto:"Scuola",certo:!1},{texto:"\xC9cole",certo:!0}]},{pergunta:"Qual \xE9 a tradu\xE7\xE3o de \"Amor\" para o ingl\xEAs?",respostas:[{texto:"Amour",certo:!1},{texto:"Lieb",certo:!1},{texto:"Love",certo:!0},{texto:"Amore",certo:!1}]}];
+</script>
+
+
+
+
+</html>

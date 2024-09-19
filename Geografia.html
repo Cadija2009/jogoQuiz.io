@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Geografia</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+   const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Qual \xE9 o maior pa\xEDs do mundo em \xE1rea?",respostas:[{texto:"Canad\xE1",certo:!1},{texto:"China",certo:!1},{texto:"Estados Unidos",certo:!1},{texto:"R\xFAssia",certo:!0}]},{pergunta:"Qual \xE9 o rio mais longo do mundo?",respostas:[{texto:"Rio Amazonas",certo:!1},{texto:"Rio Yangtz\xE9",certo:!1},{texto:"Rio Nilo",certo:!0},{texto:"Rio Mississippi",certo:!1}]},{pergunta:"Qual \xE9 a montanha mais alta do mundo?",respostas:[{texto:"Monte Everest",certo:!0},{texto:"K2",certo:!1},{texto:"Kangchenjunga",certo:!1},{texto:"Monte Kilimanjaro",certo:!1}]},{pergunta:"Qual \xE9 o maior deserto do mundo?",respostas:[{texto:"Deserto do Saara",certo:!1},{texto:"Deserto da Ar\xE1bia",certo:!1},{texto:"Deserto de Gobi",certo:!1},{texto:"Deserto da Ant\xE1rtida",certo:!0}]},{pergunta:"Qual \xE9 a capital do Jap\xE3o?",respostas:[{texto:"Osaka",certo:!1},{texto:"T\xF3quio",certo:!0},{texto:"Kyoto",certo:!1},{texto:"Nagoya",certo:!1}]},{pergunta:"Qual \xE9 o maior oceano do mundo?",respostas:[{texto:"Oceano Atl\xE2ntico",certo:!1},{texto:"Oceano \xCDndico",certo:!1},{texto:"Oceano \xC1rtico",certo:!1},{texto:"Oceano Pac\xEDfico",certo:!0}]},{pergunta:"Em que continente est\xE1 localizado o Brasil?",respostas:[{texto:"Am\xE9rica do Norte",certo:!1},{texto:"\xC1frica",certo:!1},{texto:"Am\xE9rica do Sul",certo:!0},{texto:"Europa",certo:!1}]},{pergunta:"Qual \xE9 a capital da Austr\xE1lia?",respostas:[{texto:"Sydney",certo:!1},{texto:"Melbourne",certo:!1},{texto:"Canberra",certo:!0},{texto:"Brisbane",certo:!1}]},{pergunta:"Qual \xE9 o pa\xEDs mais populoso do mundo?",respostas:[{texto:"\xCDndia",certo:!1},{texto:"Estados Unidos",certo:!1},{texto:"Indon\xE9sia",certo:!1},{texto:"China",certo:!0}]},{pergunta:"Qual \xE9 a capital do Egito?",respostas:[{texto:"Alexandria",certo:!1},{texto:"Cairo",certo:!0},{texto:"Luxor",certo:!1},{texto:"Giza",certo:!1}]},{pergunta:"Qual \xE9 o menor pa\xEDs do mundo em \xE1rea?",respostas:[{texto:"M\xF4naco",certo:!1},{texto:"Malta",certo:!1},{texto:"Vaticano",certo:!0},{texto:"San Marino",certo:!1}]},{pergunta:"Em que continente est\xE1 localizada a Fran\xE7a?",respostas:[{texto:"\xC1sia",certo:!1},{texto:"Am\xE9rica do Norte",certo:!1},{texto:"Europa",certo:!0},{texto:"\xC1frica",certo:!1}]},{pergunta:"Qual \xE9 a capital da R\xFAssia?",respostas:[{texto:"S\xE3o Petersburgo",certo:!1},{texto:"Novosibirsk",certo:!1},{texto:"Moscou",certo:!0},{texto:"Ecaterimburgo",certo:!1}]},{pergunta:"Qual \xE9 a maior ilha do mundo?",respostas:[{texto:"Nova Guin\xE9",certo:!1},{texto:"Born\xE9u",certo:!1},{texto:"Madag\xE1scar",certo:!1},{texto:"Groenl\xE2ndia",certo:!0}]},{pergunta:"Qual \xE9 a capital do Canad\xE1?",respostas:[{texto:"Toronto",certo:!1},{texto:"Vancouver",certo:!1},{texto:"Montreal",certo:!1},{texto:"Ottawa",certo:!0}]},{pergunta:"Qual pa\xEDs \xE9 famoso por seus moinhos de vento e tulipas?",respostas:[{texto:"B\xE9lgica",certo:!1},{texto:"Dinamarca",certo:!1},{texto:"Su\xED\xE7a",certo:!1},{texto:"Holanda",certo:!0}]},{pergunta:"Qual \xE9 o maior pa\xEDs da Am\xE9rica do Sul em \xE1rea?",respostas:[{texto:"Argentina",certo:!1},{texto:"Peru",certo:!1},{texto:"Brasil",certo:!0},{texto:"Col\xF4mbia",certo:!1}]},{pergunta:"Qual \xE9 a montanha mais alta da \xC1frica?",respostas:[{texto:"Monte Qu\xEAnia",certo:!1},{texto:"Monte Elgon",certo:!1},{texto:"Monte Ruwenzori",certo:!1},{texto:"Monte Kilimanjaro",certo:!0}]},{pergunta:"Qual \xE9 a capital da Argentina?",respostas:[{texto:"C\xF3rdoba",certo:!1},{texto:"Ros\xE1rio",certo:!1},{texto:"Mendoza",certo:!1},{texto:"Buenos Aires",certo:!0}]},{pergunta:"Qual \xE9 o maior lago da \xC1frica?",respostas:[{texto:"Lago Tanganica",certo:!1},{texto:"Lago Malawi",certo:!1},{texto:"Lago Chade",certo:!1},{texto:"Lago Vit\xF3ria",certo:!0}]}];
+
+
+
+
+</script>
+
+
+
+
+</html>

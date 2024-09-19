@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Entretenimento</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+  const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Qual \xE9 o nome do protagonista da s\xE9rie \"Breaking Bad\"?",respostas:[{texto:"Walter White",certo:!0},{texto:"Jesse Pinkman",certo:!1},{texto:"Saul Goodman",certo:!1},{texto:"Hank Schrader",certo:!1}]},{pergunta:"Quem dirigiu o filme \"Titanic\"?",respostas:[{texto:"Steven Spielberg",certo:!1},{texto:"James Cameron",certo:!0},{texto:"Martin Scorsese",certo:!1},{texto:"Quentin Tarantino",certo:!1}]},{pergunta:"Qual \xE9 o nome do vil\xE3o em \"Os Vingadores\"?",respostas:[{texto:"Thanos",certo:!0},{texto:"Loki",certo:!1},{texto:"Ultron",certo:!1},{texto:"Red Skull",certo:!1}]},{pergunta:"Qual banda lan\xE7ou o \xE1lbum \"Abbey Road\"?",respostas:[{texto:"The Beatles",certo:!0},{texto:"The Rolling Stones",certo:!1},{texto:"Pink Floyd",certo:!1},{texto:"Led Zeppelin",certo:!1}]},{pergunta:"Quem interpreta o personagem Jack Sparrow em \"Piratas do Caribe\"?",respostas:[{texto:"Orlando Bloom",certo:!1},{texto:"Johnny Depp",certo:!0},{texto:"Keira Knightley",certo:!1},{texto:"Geoffrey Rush",certo:!1}]},{pergunta:"Qual \xE9 o nome verdadeiro de Lady Gaga?",respostas:[{texto:"Stefani Joanne Angelina Germanotta",certo:!0},{texto:"Robyn Rihanna Fenty",certo:!1},{texto:"Alicia Augello Cook",certo:!1},{texto:"Katheryn Elizabeth Hudson",certo:!1}]},{pergunta:"Qual s\xE9rie de TV popular se passa na cidade fict\xEDcia de Hawkins?",respostas:[{texto:"Stranger Things",certo:!0},{texto:"The Umbrella Academy",certo:!1},{texto:"Riverdale",certo:!1},{texto:"Supernatural",certo:!1}]},{pergunta:"Quem ganhou o Oscar de Melhor Ator em 2020?",respostas:[{texto:"Brad Pitt",certo:!1},{texto:"Leonardo DiCaprio",certo:!1},{texto:"Joaquin Phoenix",certo:!0},{texto:"Tom Hanks",certo:!1}]},{pergunta:"Qual \xE9 o nome do rob\xF4 em \"Star Wars\" que acompanha C-3PO?",respostas:[{texto:"R2-D2",certo:!0},{texto:"BB-8",certo:!1},{texto:"K-2SO",certo:!1},{texto:"IG-88",certo:!1}]},{pergunta:"Qual filme animado da Disney apresenta a m\xFAsica \"Let It Go\"?",respostas:[{texto:"Frozen",certo:!0},{texto:"Moana",certo:!1},{texto:"Enrolados",certo:!1},{texto:"Valente",certo:!1}]},{pergunta:"Quem \xE9 o criador da s\xE9rie de TV \"Game of Thrones\"?",respostas:[{texto:"George R.R. Martin",certo:!0},{texto:"J.K. Rowling",certo:!1},{texto:"J.R.R. Tolkien",certo:!1},{texto:"Stephen King",certo:!1}]},{pergunta:"Qual cantor \xE9 conhecido como \"The King of Pop\"?",respostas:[{texto:"Elvis Presley",certo:!1},{texto:"Michael Jackson",certo:!0},{texto:"Prince",certo:!1},{texto:"Freddie Mercury",certo:!1}]},{pergunta:"Qual filme ganhou o Oscar de Melhor Filme em 2019?",respostas:[{texto:"Green Book",certo:!0},{texto:"Roma",certo:!1},{texto:"Bohemian Rhapsody",certo:!1},{texto:"A Favorita",certo:!1}]},{pergunta:"Qual personagem da DC Comics \xE9 conhecido como o \"Cavaleiro das Trevas\"?",respostas:[{texto:"Superman",certo:!1},{texto:"Flash",certo:!1},{texto:"Batman",certo:!0},{texto:"Aquaman",certo:!1}]},{pergunta:"Qual s\xE9rie de TV popular apresenta o personagem Walter White?",respostas:[{texto:"Breaking Bad",certo:!0},{texto:"The Sopranos",certo:!1},{texto:"Mad Men",certo:!1},{texto:"The Wire",certo:!1}]},{pergunta:"Qual \xE9 o nome do parque tem\xE1tico da Disney na Calif\xF3rnia?",respostas:[{texto:"Magic Kingdom",certo:!1},{texto:"Epcot",certo:!1},{texto:"Disneyland",certo:!0},{texto:"Animal Kingdom",certo:!1}]},{pergunta:"Quem \xE9 o autor da s\xE9rie de livros \"Harry Potter\"?",respostas:[{texto:"J.K. Rowling",certo:!0},{texto:"J.R.R. Tolkien",certo:!1},{texto:"C.S. Lewis",certo:!1},{texto:"George R.R. Martin",certo:!1}]},{pergunta:"Qual \xE9 o nome do drag\xE3o em \"A Bela Adormecida\"?",respostas:[{texto:"Mal\xE9vola",certo:!0},{texto:"Drogon",certo:!1},{texto:"Falkor",certo:!1},{texto:"Toothless",certo:!1}]},{pergunta:"Qual \xE9 o nome do super-her\xF3i com um martelo m\xE1gico na Marvel?",respostas:[{texto:"Hulk",certo:!1},{texto:"Thor",certo:!0},{texto:"Iron Man",certo:!1},{texto:"Captain America",certo:!1}]},{pergunta:"Qual filme \xE9 baseado na vida do matem\xE1tico John Nash?",respostas:[{texto:"O Jogo da Imita\xE7\xE3o",certo:!1},{texto:"Uma Mente Brilhante",certo:!0},{texto:"A Teoria de Tudo",certo:!1},{texto:"O Homem que Viu o Infinito",certo:!1}]}];
+
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Bíblica</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+   const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Quem construiu a arca para salvar sua fam\xEDlia do dil\xFAvio?",respostas:[{texto:"Abra\xE3o",certo:!1},{texto:"Moises",certo:!1},{texto:"No\xE9",certo:!0},{texto:"Davi",certo:!1}]},{pergunta:"Quem foi lan\xE7ado na cova dos le\xF5es?",respostas:[{texto:"Daniel",certo:!0},{texto:"Jonas",certo:!1},{texto:"Jos\xE9",certo:!1},{texto:"Elias",certo:!1}]},{pergunta:"Qual o primeiro livro da B\xEDblia?",respostas:[{texto:"\xCAxodo",certo:!1},{texto:"G\xEAnesis",certo:!0},{texto:"Lev\xEDtico",certo:!1},{texto:"N\xFAmeros",certo:!1}]},{pergunta:"Quem foi o primeiro rei de Israel?",respostas:[{texto:"Saul",certo:!0},{texto:"Davi",certo:!1},{texto:"Salom\xE3o",certo:!1},{texto:"Josu\xE9",certo:!1}]},{pergunta:"Quem foi o traidor que entregou Jesus?",respostas:[{texto:"Pedro",certo:!1},{texto:"Judas Iscariotes",certo:!0},{texto:"Tom\xE9",certo:!1},{texto:"Filipe",certo:!1}]},{pergunta:"Quem escreveu a maior parte das cartas no Novo Testamento?",respostas:[{texto:"Pedro",certo:!1},{texto:"Jo\xE3o",certo:!1},{texto:"Paulo",certo:!0},{texto:"Tiago",certo:!1}]},{pergunta:"Qual era a profiss\xE3o de Mateus antes de seguir Jesus?",respostas:[{texto:"Pescador",certo:!1},{texto:"Zelote",certo:!1},{texto:"Cobrador de impostos",certo:!0},{texto:"Carpinteiro",certo:!1}]},{pergunta:"Quantos dias Jesus jejuou no deserto?",respostas:[{texto:"30",certo:!1},{texto:"20",certo:!1},{texto:"50",certo:!1},{texto:"40",certo:!0}]},{pergunta:"Quem foi a m\xE3e de Samuel?",respostas:[{texto:"Ana",certo:!0},{texto:"Sara",certo:!1},{texto:"Rebeca",certo:!1},{texto:"Raquel",certo:!1}]},{pergunta:"Qual era o nome original de Abra\xE3o?",respostas:[{texto:"Abimeleque",certo:!1},{texto:"Abr\xE3o",certo:!0},{texto:"Efraim",certo:!1},{texto:"Calebe",certo:!1}]},{pergunta:"Quem interpretou os sonhos do Fara\xF3 no Egito?",respostas:[{texto:"Mois\xE9s",certo:!1},{texto:"Daniel",certo:!1},{texto:"Jos\xE9",certo:!0},{texto:"Neemias",certo:!1}]},{pergunta:"Quem era conhecido como \"o homem segundo o cora\xE7\xE3o de Deus\"?",respostas:[{texto:"Salom\xE3o",certo:!1},{texto:"Davi",certo:!0},{texto:"Saul",certo:!1},{texto:"Elias",certo:!1}]},{pergunta:"Em que cidade Jesus nasceu?",respostas:[{texto:"Jerusal\xE9m",certo:!1},{texto:"Bel\xE9m",certo:!0},{texto:"Nazar\xE9",certo:!1},{texto:"Cafarnaum",certo:!1}]},{pergunta:"Qual \xE9 o menor vers\xEDculo da B\xEDblia?",respostas:[{texto:"Jesus chorou",certo:!0},{texto:"Deus \xE9 amor",certo:!1},{texto:"Eu sou",certo:!1},{texto:"Ele vive",certo:!1}]},{pergunta:"Quem conduziu os israelitas \xE0 Terra Prometida?",respostas:[{texto:"Mois\xE9s",certo:!1},{texto:"Josu\xE9",certo:!0},{texto:"Aar\xE3o",certo:!1},{texto:"Calebe",certo:!1}]},{pergunta:"Qual foi o sinal da alian\xE7a de Deus com No\xE9 ap\xF3s o dil\xFAvio?",respostas:[{texto:"Estrela",certo:!1},{texto:"Arco-\xEDris",certo:!0},{texto:"Montanha",certo:!1},{texto:"Vento",certo:!1}]},{pergunta:"Quantas pragas atingiram o Egito na \xE9poca de Mois\xE9s?",respostas:[{texto:"5",certo:!1},{texto:"7",certo:!1},{texto:"10",certo:!0},{texto:"12",certo:!1}]},{pergunta:"Quem foi engolido por um grande peixe?",respostas:[{texto:"Elias",certo:!1},{texto:"Jonas",certo:!0},{texto:"Isa\xEDas",certo:!1},{texto:"Jeremias",certo:!1}]},{pergunta:"Qual ap\xF3stolo negou Jesus tr\xEAs vezes?",respostas:[{texto:"Pedro",certo:!0},{texto:"Jo\xE3o",certo:!1},{texto:"Tiago",certo:!1},{texto:"Andr\xE9",certo:!1}]},{pergunta:"Quem escreveu o livro do Apocalipse?",respostas:[{texto:"Paulo",certo:!1},{texto:"Pedro",certo:!1},{texto:"Jo\xE3o",certo:!0},{texto:"Lucas",certo:!1}]}];
+
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz Muslim</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+    const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Qual \xE9 o livro sagrado do Isl\xE3?",respostas:[{texto:"Tor\xE1",certo:!1},{texto:"B\xEDblia",certo:!1},{texto:"Alcor\xE3o",certo:!0},{texto:"Vedas",certo:!1}]},{pergunta:"Quantos cap\xEDtulos existem no Alcor\xE3o?",respostas:[{texto:"144",certo:!1},{texto:"100",certo:!1},{texto:"114",certo:!0},{texto:"200",certo:!1}]},{pergunta:"Qual \xE9 o nome do primeiro cap\xEDtulo do Alcor\xE3o?",respostas:[{texto:"Al-Baqarah",certo:!1},{texto:"Al-Fatihah",certo:!0},{texto:"Al-Imran",certo:!1},{texto:"An-Nisa",certo:!1}]},{pergunta:"Em que l\xEDngua o Alcor\xE3o foi originalmente revelado?",respostas:[{texto:"Hebraico",certo:!1},{texto:"Latim",certo:!1},{texto:"\xC1rabe",certo:!0},{texto:"Persa",certo:!1}]},{pergunta:"Quem revelou o Alcor\xE3o ao Profeta Muhammad?",respostas:[{texto:"Anjo Gabriel",certo:!0},{texto:"Anjo Miguel",certo:!1},{texto:"Anjo Rafael",certo:!1},{texto:"Anjo Uriel",certo:!1}]},{pergunta:"Quantos vers\xEDculos existem no Alcor\xE3o?",respostas:[{texto:"6236",certo:!0},{texto:"5000",certo:!1},{texto:"7500",certo:!1},{texto:"6000",certo:!1}]},{pergunta:"Qual surata \xE9 conhecida como o \"Cora\xE7\xE3o do Alcor\xE3o\"?",respostas:[{texto:"Al-Fatihah",certo:!1},{texto:"Yasin",certo:!0},{texto:"Al-Baqarah",certo:!1},{texto:"Al-Kahf",certo:!1}]},{pergunta:"Qual surata \xE9 a mais longa no Alcor\xE3o?",respostas:[{texto:"Al-Imran",certo:!1},{texto:"Al-Baqarah",certo:!0},{texto:"An-Nisa",certo:!1},{texto:"At-Tawbah",certo:!1}]},{pergunta:"Qual surata \xE9 a mais curta no Alcor\xE3o?",respostas:[{texto:"Al-Kawthar",certo:!0},{texto:"Al-Ikhlas",certo:!1},{texto:"Al-Asr",certo:!1},{texto:"Al-Maun",certo:!1}]},{pergunta:"Quantos anos durou a revela\xE7\xE3o do Alcor\xE3o?",respostas:[{texto:"10 anos",certo:!1},{texto:"15 anos",certo:!1},{texto:"23 anos",certo:!0},{texto:"30 anos",certo:!1}]},{pergunta:"Qual surata \xE9 recitada em todas as ora\xE7\xF5es obrigat\xF3rias?",respostas:[{texto:"Al-Baqarah",certo:!1},{texto:"Al-Fatihah",certo:!0},{texto:"Al-Ikhlas",certo:!1},{texto:"An-Nas",certo:!1}]},{pergunta:"Qual surata \xE9 conhecida como a surata da sinceridade?",respostas:[{texto:"Al-Falaq",certo:!1},{texto:"An-Nas",certo:!1},{texto:"Al-Ikhlas",certo:!0},{texto:"Al-Masad",certo:!1}]},{pergunta:"Qual surata \xE9 conhecida por ser uma prote\xE7\xE3o contra o mal?",respostas:[{texto:"Al-Fatihah",certo:!1},{texto:"Al-Ikhlas",certo:!1},{texto:"Al-Falaq",certo:!0},{texto:"Al-Kawthar",certo:!1}]},{pergunta:"Em qual m\xEAs o Alcor\xE3o foi revelado?",respostas:[{texto:"Ramad\xE3",certo:!0},{texto:"Shaban",certo:!1},{texto:"Muharram",certo:!1},{texto:"Rabiul Awal",certo:!1}]},{pergunta:"Qual surata fala sobre a cria\xE7\xE3o do ser humano?",respostas:[{texto:"Al-Mulk",certo:!1},{texto:"Al-Insan",certo:!0},{texto:"Al-Baqarah",certo:!1},{texto:"An-Nisa",certo:!1}]},{pergunta:"Qual surata come\xE7a com \"Bismillahir Rahmanir Rahim\"?",respostas:[{texto:"Todas as suratas",certo:!1},{texto:"Al-Fatihah",certo:!1},{texto:"Todas, exceto At-Tawbah",certo:!0},{texto:"Somente Al-Fatihah",certo:!1}]},{pergunta:"Qual surata fala sobre a hist\xF3ria de Mois\xE9s e Khidr?",respostas:[{texto:"Al-Baqarah",certo:!1},{texto:"Al-Kahf",certo:!0},{texto:"Al-Imran",certo:!1},{texto:"Al-Araf",certo:!1}]},{pergunta:"Qual surata \xE9 conhecida como a surata do Trono?",respostas:[{texto:"Al-Fatihah",certo:!1},{texto:"Al-Ikhlas",certo:!1},{texto:"Al-Baqarah",certo:!0},{texto:"An-Nisa",certo:!1}]},{pergunta:"Qual profeta \xE9 mais mencionado no Alcor\xE3o?",respostas:[{texto:"Jesus",certo:!1},{texto:"Mois\xE9s",certo:!0},{texto:"Abra\xE3o",certo:!1},{texto:"Muhammad",certo:!1}]},{pergunta:"Qual surata menciona a batalha de Badr?",respostas:[{texto:"Al-Imran",certo:!1},{texto:"Al-Anfal",certo:!0},{texto:"Al-Baqarah",certo:!1},{texto:"At-Tawbah",certo:!1}]}];
+    
+
+</script>
+
+
+
+
+</html>

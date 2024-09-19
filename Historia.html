@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/estiloQuiz.css">
+    <link rel="shortcut icon" href="/Fotos/favicon.jpeg" type="image/x-icon">
+    <title>Quiz História</title>
+</head>
+
+<body>
+    <div class="back-link">
+        <a href="#" onclick="window.history.back()"><img src="/Fotos/icons8-go-back-32.png"></a>
+    </div>
+    <div class="principal">
+        <div class="container">
+            <p class="pontuacao hide">Pontos: <span class="pontos">0</span></p>
+            <div class="container-perguntas hide">
+                <div id="pergunta">
+                    <span class="perguntas">Pergunta aqui!</span>
+                </div>
+                <div class="container-respostas">
+                    <button class="respostas button">Resposta 1</button>
+                    <button class="respostas button">Resposta 2</button>
+                    <button class="respostas button">Resposta 3</button>
+                    <button class="respostas button">Resposta 4</button>
+                </div>
+            </div>
+            <p class="mensagem-aviso hide">Resposta correcta!</p>
+            <div class="container-controles">
+                <button class="comecar-jogo button">Começar Quiz</button>
+                <button class="proxima-pergunta button hide"> Proxima Pergunta</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+<script>
+
+ const btnComecar=document.querySelector(".comecar-jogo"),containerPerguntas=document.querySelector(".container-perguntas"),containerRespostas=document.querySelector(".container-respostas"),textoPergunta=document.querySelector(".perguntas"),btnProximo=document.querySelector(".proxima-pergunta"),Pontuacao=document.querySelector(".pontuacao"),Pontos=document.querySelector(".pontos"),Mensagemm=document.querySelector(".mensagem-aviso");btnComecar.addEventListener("click",comecarJogo),btnProximo.addEventListener("click",displayProximaPergunta);let embaralharPerguntas,currentQuestionIndex=0,totalCerto=0;function comecarJogo(){btnComecar.classList.add("hide"),containerPerguntas.classList.remove("hide"),Pontuacao.classList.remove("hide"),embaralharPerguntas=embaralhar(perguntas),displayProximaPergunta()}function displayProximaPergunta(){return voltarPadrao(),perguntas.length===currentQuestionIndex?fimJogo():void(textoPergunta.textContent=perguntas[currentQuestionIndex].pergunta,perguntas[currentQuestionIndex].respostas.forEach(a=>{const b=document.createElement("button");b.classList.add("button","respostas"),b.textContent=a.texto,a.certo&&(b.dataset.certo=a.certo),containerRespostas.appendChild(b),b.addEventListener("click",selecionarResposta)}))}function voltarPadrao(){for(;containerRespostas.firstChild;)containerRespostas.removeChild(containerRespostas.firstChild);document.body.removeAttribute("class"),btnProximo.classList.add("hide"),Mensagemm.classList.add("hide")}function selecionarResposta(a){const b=a.target;b.dataset.certo?(document.body.classList.add("certoo"),totalCerto++,Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta correcta!"):(document.body.classList.add("erradoo"),Pontos.innerHTML=totalCerto,Mensagemm.classList.remove("hide"),Mensagemm.innerHTML="Resposta incorrecta!"),document.querySelectorAll(".respostas").forEach(a=>{a.dataset.certo?a.classList.add("certo"):a.classList.add("errado"),a.disabled=!0}),btnProximo.classList.remove("hide"),currentQuestionIndex++}function fimJogo(){Pontuacao.classList.add("hide");const a=perguntas.length,b=Math.floor(100*totalCerto/a);let c="";switch(!0){case 90<=b:c="Excelente!";break;case 70<=b:c="Muito Bom!";break;case 50<=b:c="Bom!";break;case 0<=b:c="Pode melhorar!";}containerPerguntas.innerHTML=`
+            <p class="mensagem-final" >
+                Você acertou ${totalCerto} de ${a} perguntas!
+                <span>Resultado: ${c} </span> 
+            </p>
+            <button onclick=window.location.reload() class="button">
+                Jogar outra vez!
+            </button>
+
+        `}function embaralhar(a){for(let b=a.length-1;0<b;b--){const c=Math.floor(Math.random()*(b+1));[a[b],a[c]]=[a[c],a[b]]}return a}const perguntas=[{pergunta:"Quem foi o primeiro imperador da Roma Antiga?",respostas:[{texto:"J\xFAlio C\xE9sar",certo:!1},{texto:"Augusto",certo:!0},{texto:"Nero",certo:!1},{texto:"Trajano",certo:!1}]},{pergunta:"Qual evento marcou o in\xEDcio da Revolu\xE7\xE3o Francesa?",respostas:[{texto:"A queda da Bastilha",certo:!0},{texto:"A execu\xE7\xE3o de Lu\xEDs XVI",certo:!1},{texto:"A assinatura da Declara\xE7\xE3o dos Direitos do Homem",certo:!1},{texto:"A reuni\xE3o dos Estados Gerais",certo:!1}]},{pergunta:"Quem foi o l\xEDder do Movimento pelos Direitos Civis nos EUA?",respostas:[{texto:"Malcolm X",certo:!1},{texto:"Martin Luther King Jr.",certo:!0},{texto:"Rosa Parks",certo:!1},{texto:"Frederick Douglass",certo:!1}]},{pergunta:"Em que ano Crist\xF3v\xE3o Colombo descobriu a Am\xE9rica?",respostas:[{texto:"1492",certo:!0},{texto:"1498",certo:!1},{texto:"1500",certo:!1},{texto:"1513",certo:!1}]},{pergunta:"Quem foi o l\xEDder da Revolu\xE7\xE3o Bolchevique?",respostas:[{texto:"Leon Trotsky",certo:!1},{texto:"Josef Stalin",certo:!1},{texto:"Vladimir Lenin",certo:!0},{texto:"Mikhail Gorbachev",certo:!1}]},{pergunta:"Qual foi a causa principal da Primeira Guerra Mundial?",respostas:[{texto:"A Revolu\xE7\xE3o Industrial",certo:!1},{texto:"A invas\xE3o da Pol\xF4nia",certo:!1},{texto:"O assassinato do Arquiduque Franz Ferdinand",certo:!0},{texto:"A Batalha de Stalingrado",certo:!1}]},{pergunta:"Quem foi o primeiro presidente dos Estados Unidos?",respostas:[{texto:"Thomas Jefferson",certo:!1},{texto:"Abraham Lincoln",certo:!1},{texto:"George Washington",certo:!0},{texto:"John Adams",certo:!1}]},{pergunta:"Qual foi a principal causa da queda do Imp\xE9rio Romano?",respostas:[{texto:"A invas\xE3o dos mong\xF3is",certo:!1},{texto:"A divis\xE3o do imp\xE9rio",certo:!1},{texto:"A invas\xE3o dos povos germ\xE2nicos",certo:!0},{texto:"A peste negra",certo:!1}]},{pergunta:"Qual foi a principal motiva\xE7\xE3o das Cruzadas?",respostas:[{texto:"A busca por riqueza",certo:!1},{texto:"A expans\xE3o territorial",certo:!1},{texto:"A reconquista de Jerusal\xE9m",certo:!0},{texto:"A luta contra o Imp\xE9rio Otomano",certo:!1}]},{pergunta:"Quem foi o l\xEDder do Imp\xE9rio Mongol?",respostas:[{texto:"Genghis Khan",certo:!0},{texto:"Kublai Khan",certo:!1},{texto:"Attila",certo:!1},{texto:"C\xE9sar",certo:!1}]},{pergunta:"Qual evento \xE9 conhecido como o \"Dia D\"?",respostas:[{texto:"A invas\xE3o da Normandia",certo:!0},{texto:"A queda do Muro de Berlim",certo:!1},{texto:"A assinatura do Tratado de Versalhes",certo:!1},{texto:"A invas\xE3o do Jap\xE3o",certo:!1}]},{pergunta:"Quem foi o imperador que estabeleceu o Cristianismo como religi\xE3o oficial do Imp\xE9rio Romano?",respostas:[{texto:"Nero",certo:!1},{texto:"Constantino",certo:!0},{texto:"Juliano",certo:!1},{texto:"Augusto",certo:!1}]},{pergunta:"Em que ano foi assinada a Declara\xE7\xE3o da Independ\xEAncia dos Estados Unidos?",respostas:[{texto:"1776",certo:!0},{texto:"1783",certo:!1},{texto:"1791",certo:!1},{texto:"1801",certo:!1}]},{pergunta:"Quem foi o chefe do Partido Nazista na Alemanha?",respostas:[{texto:"Joseph Goebbels",certo:!1},{texto:"Hermann G\xF6ring",certo:!1},{texto:"Adolf Hitler",certo:!0},{texto:"Rudolf Hess",certo:!1}]},{pergunta:"Qual foi a principal causa da Revolu\xE7\xE3o Industrial?",respostas:[{texto:"A Revolu\xE7\xE3o Francesa",certo:!1},{texto:"O desenvolvimento de novas tecnologias",certo:!0},{texto:"A descoberta do Novo Mundo",certo:!1},{texto:"A queda do Imp\xE9rio Romano",certo:!1}]},{pergunta:"Quem foi o fundador do Imp\xE9rio Otomano?",respostas:[{texto:"Suleiman, o Magn\xEDfico",certo:!1},{texto:"Osman I",certo:!0},{texto:"Mehmed II",certo:!1},{texto:"Selim I",certo:!1}]},{pergunta:"Qual foi a primeira civiliza\xE7\xE3o a usar a escrita?",respostas:[{texto:"Eg\xEDpcios",certo:!1},{texto:"Sum\xE9rios",certo:!0},{texto:"Chineses",certo:!1},{texto:"Romanos",certo:!1}]},{pergunta:"Quem foi o \xFAltimo czar da R\xFAssia?",respostas:[{texto:"Pedro I",certo:!1},{texto:"Nicolau II",certo:!0},{texto:"Alexandre III",certo:!1},{texto:"Ivan IV",certo:!1}]},{pergunta:"Qual foi o tratado que encerrou a Primeira Guerra Mundial?",respostas:[{texto:"Tratado de Versalhes",certo:!0},{texto:"Tratado de Paris",certo:!1},{texto:"Tratado de Tordesilhas",certo:!1},{texto:"Tratado de Utrecht",certo:!1}]},{pergunta:"Quem foi o principal l\xEDder da independ\xEAncia da \xCDndia?",respostas:[{texto:"Jawaharlal Nehru",certo:!1},{texto:"Mahatma Gandhi",certo:!0},{texto:"Subhas Chandra Bose",certo:!1},{texto:"Bhagat Singh",certo:!1}]},{pergunta:"Qual foi o principal objetivo do Projeto Manhattan?",respostas:[{texto:"Desenvolver a bomba de hidrog\xEAnio",certo:!1},{texto:"Criar armas qu\xEDmicas",certo:!1},{texto:"Desenvolver a bomba at\xF4mica",certo:!0},{texto:"Construir um novo tipo de avi\xE3o",certo:!1}]}];
+</script>
+
+
+
+
+</html>
